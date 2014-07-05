@@ -1,0 +1,29 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+
+<polymer-element name="inputs-service" attributes="id res">
+  <template>
+    <style>
+    :host {
+      display: none;
+    }
+    </style>
+    <core-ajax id="ajax"
+      auto
+      url="../mock-server/inputs.json"
+      on-core-response="{{dataLoaded}}"
+      handleAs="json">
+    </core-ajax>
+  </template>
+  <script>
+  Polymer('inputs-service', {
+    created: function() {
+      this.res = [];
+    },
+    dataLoaded: function() {
+      // Make a copy of the loaded data
+      this.res = this.$.ajax.response.slice(0);
+    }
+  });
+  </script>
+</polymer-element>
