@@ -9,8 +9,11 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "gulp" : "*",
-    "gulp-vulcanize" : "*",
-    "gulp-bower" : "*"
+    "gulp": "*",
+    "gulp-vulcanize": "*",
+    "gulp-bower": "*"
+  },
+  "devDependencies": {
+    "gulp-connect": "^2.0.5"
   }
 }

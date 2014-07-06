@@ -2,90 +2,93 @@
 <html>
 
 <head>
-  <title>unquote</title>
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, user-scalable=0, initial-scale=1.0">
-  <script src="../bower_components/platform/platform.js"></script>
-  <link rel="import" href="../bower_components/font-roboto/roboto.html">
-  <link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
-  <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
-  <link rel="import" href="../bower_components/paper-input/paper-input.html">
-  <link rel="import" href="../bower_components/core-icon/core-icon.html">
-  <link rel="import" href="flow-list.html">
-  
-  <style>
-  html,body {
-    height: 100%;
-    margin: 0;
-    background-color: #E5E5E5;
-    font-family: 'RobotoDraft', sans-serif;
-  }
-  core-header-panel {
-    height: 100%;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  core-toolbar {
-    background: #03a9f4;
-    color: white;
-  }
+    <title>unquote</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, user-scalable=0, initial-scale=1.0">
+    <script src="../bower_components/platform/platform.js"></script>
+    <link rel="import" href="../bower_components/font-roboto/roboto.html">
+    <link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
+    <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../bower_components/core-icon/core-icon.html">
+    <link rel="import" href="flow-list.html">
 
-  .container {
-    width: 80%;
-    margin: 50px auto;
-  }
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-color: #E5E5E5;
+            font-family: 'RobotoDraft', sans-serif;
+        }
 
-  #search-bar {
-    width : 300px;
-    height : 100%
-  }
+        core-header-panel {
+            height: 100%;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
 
-  @media (min-width: 481px) {
-    .container {
-      width: 400px;
-    }
-    #search-bar {
-      width: 440px;
-    }
-  }
+        core-toolbar {
+            background: #03a9f4;
+            color: white;
+        }
 
-  input {
-    background-color: inherit;
-    border: none;
-    font-size: 20px;
-    outline: 0;
-    padding: 0;
-    color: black;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 0 0;
-    -moz-flex: 1 0 0;
-    -ms-flex: 1 0 0;
-    -o-flex: 1 0 0;
-    flex: 1 0 0;
-    -webkit-appearance: none;
-  }
-  </style>
+        .container {
+            width: 80%;
+            margin: 50px auto;
+        }
+
+        #search-bar {
+            width: 300px;
+            height: 100%
+        }
+
+        @media (min-width: 481px) {
+            .container {
+                width: 400px;
+            }
+
+            #search-bar {
+                width: 440px;
+            }
+        }
+
+        input {
+            background-color: inherit;
+            border: none;
+            font-size: 20px;
+            outline: 0;
+            padding: 0;
+            color: black;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1 0 0;
+            -moz-flex: 1 0 0;
+            -ms-flex: 1 0 0;
+            -o-flex: 1 0 0;
+            flex: 1 0 0;
+            -webkit-appearance: none;
+        }
+    </style>
 </head>
 
 <body unresolved touch-action="auto">
-  <core-header-panel>
+<core-header-panel>
     <core-toolbar layout vertical center>
-      <core-icon icon="search"></core-icon>
-      <input type="search" id="search-bar" label="type a name of a flow" autocomplete="off">
+        <core-icon icon="search"></core-icon>
+        <input type="search" id="search-bar" label="type a name of a flow" autocomplete="off">
     </core-toolbar>
     <div class="container" layout vertical center>
-      <flow-list filter="{{filter}}"></flow-list>
+        <flow-list filter="{{filter}}"></flow-list>
     </div>
-  </core-header-panel>
+</core-header-panel>
 </body>
 
 <script>
-window.addEventListener('polymer-ready', function() {
-  var search = document.querySelector('#search-bar');
-  var flowList = document.querySelector('flow-list');
-  search.addEventListener('keyup', function() {
-    flowList.filter = search.inputValue;
-  });
-});
+    window.addEventListener('polymer-ready', function () {
+        var search = document.querySelector('#search-bar');
+        var flowList = document.querySelector('flow-list');
+        search.addEventListener('keyup', function () {
+            flowList.filter = search.inputValue;
+        });
+    });
 
 </script>
 

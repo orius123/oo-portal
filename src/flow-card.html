@@ -5,124 +5,124 @@
 <link rel="import" href="flow-trigger.html">
 
 <polymer-element name="flow-card" attributes="id">
-  <template>
-    <style>
-    /* general styles */
-    :host {
-      display: block;
-      position: relative;
-      background-color: white;
-      padding: 20px;
-      width: 100%;
-      font-size: 1.2rem;
-      font-weight: 300;
-    }
+    <template>
+        <style>
+            /* general styles */
+            :host {
+                display: block;
+                position: relative;
+                background-color: white;
+                padding: 20px;
+                width: 100%;
+                font-size: 1.2rem;
+                font-weight: 300;
+            }
 
-    #flow.core-selected {
-      position : inherit;
-    }
+            #flow.core-selected {
+                position: inherit;
+            }
 
-    #trigger.core-selected {
-      position : inherit;
-    }
+            #trigger.core-selected {
+                position: inherit;
+            }
 
-    paper-fab.nav-next {
-        position : absolute;
-        top : -25px;
-        right : -15px;;
-    }
+            paper-fab.nav-next {
+                position: absolute;
+                top: -25px;
+                right: -15px;;
+            }
 
-    /* fade in animation */
-    .fadeIn{
-    	animation-name: fadeIn;
-    	-webkit-animation-name: fadeIn;
+            /* fade in animation */
+            .fadeIn {
+                animation-name: fadeIn;
+                -webkit-animation-name: fadeIn;
 
-    	animation-duration: 1.5s;
-    	-webkit-animation-duration: 1.5s;
+                animation-duration: 1.5s;
+                -webkit-animation-duration: 1.5s;
 
-    	animation-timing-function: ease-in-out;
-    	-webkit-animation-timing-function: ease-in-out;
+                animation-timing-function: ease-in-out;
+                -webkit-animation-timing-function: ease-in-out;
 
-    	visibility: visible !important;
-    }
+                visibility: visible !important;
+            }
 
-    @keyframes fadeIn {
-    	0% {
-    		transform: scale(0);
-    		opacity: 0.0;
-    	}
-    	60% {
-    		transform: scale(1.1);
-    	}
-    	80% {
-    		transform: scale(0.9);
-    		opacity: 1;
-    	}
-    	100% {
-    		transform: scale(1);
-    		opacity: 1;
-    	}
-    }
+            @keyframes fadeIn {
+                0% {
+                    transform: scale(0);
+                    opacity: 0.0;
+                }
+                60% {
+                    transform: scale(1.1);
+                }
+                80% {
+                    transform: scale(0.9);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
 
-    @-webkit-keyframes fadeIn {
-    	0% {
-    		-webkit-transform: scale(0);
-    		opacity: 0.0;
-    	}
-    	60% {
-    		-webkit-transform: scale(1.1);
-    	}
-    	80% {
-    		-webkit-transform: scale(0.9);
-    		opacity: 1;
-    	}
-    	100% {
-    		-webkit-transform: scale(1);
-    		opacity: 1;
-    	}
-    }
+            @-webkit-keyframes fadeIn {
+                0% {
+                    -webkit-transform: scale(0);
+                    opacity: 0.0;
+                }
+                60% {
+                    -webkit-transform: scale(1.1);
+                }
+                80% {
+                    -webkit-transform: scale(0.9);
+                    opacity: 1;
+                }
+                100% {
+                    -webkit-transform: scale(1);
+                    opacity: 1;
+                }
+            }
 
-    </style>
-    <core-animated-pages id="pages" transitions="hero-transition cross-fade">
-      <section id="flow">
-        <div cross-fade hero hero-id="hero">
-          <flow-data  on-next={{next}} id="{{id}}"></flow-card>
-        </div>
-      </section>
-      <section id="trigger">
-        <div cross-fade hero hero-id="hero">
-          <flow-trigger cross-fade id="{{id}}" valid="{{formValidity}}"></flow-trigger>
-        </div>
-      </section>
-    </core-animated-pages>
-    <template if="{{showArrow}}">
-      <paper-fab class="nav-next fadeIn" on-tap="{{next}}" icon="arrow-forward" role="button"></paper-fab>
+        </style>
+        <core-animated-pages id="pages" transitions="hero-transition cross-fade">
+            <section id="flow">
+                <div cross-fade hero hero-id="hero">
+                    <flow-data on-next={{next}} id="{{id}}"></flow-card>
+                </div>
+            </section>
+            <section id="trigger">
+                <div cross-fade hero hero-id="hero">
+                    <flow-trigger cross-fade id="{{id}}" valid="{{formValidity}}"></flow-trigger>
+                </div>
+            </section>
+        </core-animated-pages>
+        <template if="{{showArrow}}">
+            <paper-fab class="nav-next fadeIn" on-tap="{{next}}" icon="arrow-forward" role="button"></paper-fab>
+        </template>
     </template>
-  </template>
-  <script>
-  (function() {
-    var PAGE_AMOUNT = 2;
-    var FLOW_PAGE = 0;
-    var TRIGGER_PAGE = 1;
+    <script>
+        (function () {
+            var PAGE_AMOUNT = 2;
+            var FLOW_PAGE = 0;
+            var TRIGGER_PAGE = 1;
 
-    Polymer('flow-card', {
-      observe : {
-        "$.pages.selected" : "calcBtnVisibility",
-        "formValidity" : "calcBtnVisibility"
-      },
-      showArrow : true,
-      formValidity : true,
-      calcBtnVisibility : function() {
-        if (this.$.pages.selected == TRIGGER_PAGE) {
-          this.showArrow = this.formValidity;
-        } else if (this.$.pages.selected === (PAGE_AMOUNT - 1)) {
-          this.showArrow = false;
-        }
-      },
-      next : function() {
-        this.$.pages.selected += 1;
-      }
-    });
-  })();
-  </script>
+            Polymer('flow-card', {
+                observe          : {
+                    "$.pages.selected": "calcBtnVisibility",
+                    "formValidity"    : "calcBtnVisibility"
+                },
+                showArrow        : true,
+                formValidity     : true,
+                calcBtnVisibility: function () {
+                    if (this.$.pages.selected == TRIGGER_PAGE) {
+                        this.showArrow = this.formValidity;
+                    } else if (this.$.pages.selected === (PAGE_AMOUNT - 1)) {
+                        this.showArrow = false;
+                    }
+                },
+                next             : function () {
+                    this.$.pages.selected += 1;
+                }
+            });
+        })();
+    </script>
 </polymer-element>

@@ -2,6 +2,7 @@
 
 ### idea ###
 *.iml
+.idea
 
 ### Bower ###
 bower_components

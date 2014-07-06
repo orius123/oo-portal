@@ -3,47 +3,48 @@
 <link rel="import" href="flows-service.html">
 
 <polymer-element name="flow-list" attributes="filter">
-  <template>
-    <style>
-    :host {
-      display: block;
-      width: 100%;
-    }
-    flow-card {
-      margin-bottom: 30px;
-    }
-    </style>
+    <template>
+        <style>
+            :host {
+                display: block;
+                width: 100%;
+            }
 
-    <flows-service res="{{flows}}"></flows-service>
-    <div layout vertical center>
-      <template repeat="{{flow in filteredFlows}}">
-        <flow-card id="{flow.id}"></flow-card>
-      </template>
-    </div>
+            flow-card {
+                margin-bottom: 30px;
+            }
+        </style>
 
-  </template>
-  <script>
-    Polymer('flow-list', {
-      flows : null,
-      filter : "",
-      filteredFlows : null,
-      observe : {
-        flows : 'renderFlows',
-        filter : 'renderFlows'
-      },
-      renderFlows : function() {
-        var self = this;
-        this.filteredFlows = self.flows
-        .filter(function(el) {
-          var flowName = el.name.toLowerCase();
-          var filter = self.filter.toLowerCase()
-          return flowName.indexOf(filter) !== -1;
-        }).slice(0, 1);
-      },
-      ready : function() {
-        this.flows = [];
-        this.filteredFlows = [];
-      }
-    });
-  </script>
+        <flows-service res="{{flows}}"></flows-service>
+        <div layout vertical center>
+            <template repeat="{{flow in filteredFlows}}">
+                <flow-card id="{flow.id}"></flow-card>
+            </template>
+        </div>
+
+    </template>
+    <script>
+        Polymer('flow-list', {
+            flows        : null,
+            filter       : "",
+            filteredFlows: null,
+            observe      : {
+                flows : 'renderFlows',
+                filter: 'renderFlows'
+            },
+            renderFlows  : function () {
+                var self = this;
+                this.filteredFlows = self.flows
+                        .filter(function (el) {
+                            var flowName = el.name.toLowerCase();
+                            var filter = self.filter.toLowerCase();
+                            return flowName.indexOf(filter) !== -1;
+                        }).slice(0, 5);
+            },
+            ready        : function () {
+                this.flows = [];
+                this.filteredFlows = [];
+            }
+        });
+    </script>
 </polymer-element>

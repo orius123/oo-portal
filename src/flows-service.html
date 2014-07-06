@@ -2,28 +2,28 @@
 <link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 
 <polymer-element name="flows-service" attributes="res">
-  <template>
-    <style>
-    :host {
-      display: none;
-    }
-    </style>
-    <core-ajax id="ajax"
-      auto
-      url="../mock-server/flows.json"
-      on-core-response="{{dataLoaded}}"
-      handleAs="json">
-    </core-ajax>
-  </template>
-  <script>
-  Polymer('flows-service', {
-    created: function() {
-      this.res = [];
-    },
-    dataLoaded: function() {
-      // Make a copy of the loaded data
-      this.res = this.$.ajax.response.slice(0);
-    }
-  });
-  </script>
+    <template>
+        <style>
+            :host {
+                display: none;
+            }
+        </style>
+        <core-ajax id="ajax"
+                   auto
+                   url="../mock-server/flows.json"
+                   on-core-response="{{dataLoaded}}"
+                   handleAs="json">
+        </core-ajax>
+    </template>
+    <script>
+        Polymer('flows-service', {
+            created   : function () {
+                this.res = [];
+            },
+            dataLoaded: function () {
+                // Make a copy of the loaded data
+                this.res = this.$.ajax.response.slice(0);
+            }
+        });
+    </script>
 </polymer-element>
