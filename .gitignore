@@ -1,8 +1,10 @@
 # Created by http://www.gitignore.io
 
+### idea ###
+*.iml
+
 ### Bower ###
 bower_components
-
 
 ### OSX ###
 .DS_Store
