@@ -1,19 +1,17 @@
 {
-  "name": "oo-portal",
-  "version": "0.0.1",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mzruya/oo-portal"
-  },
-  "author": "Matan Zruya",
-  "license": "MIT",
-  "readmeFilename": "README.md",
-  "dependencies": {
-    "gulp": "*",
-    "gulp-vulcanize": "*",
-    "gulp-bower": "*"
-  },
-  "devDependencies": {
-    "gulp-connect": "^2.0.5"
-  }
+    "name"           : "oo-portal",
+    "version"        : "0.0.1",
+    "repository"     : {
+        "type": "git",
+        "url" : "https://github.com/mzruya/oo-portal"
+    },
+    "author"         : "Matan Zruya",
+    "license"        : "MIT",
+    "readmeFilename" : "README.md",
+    "devDependencies": {
+        "gulp-connect"  : "^2.0.5",
+        "gulp"          : "*",
+        "gulp-vulcanize": "*",
+        "gulp-bower"    : "*"
+    }
 }

@@ -1,0 +1,50 @@
+﻿<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../services/flows-service.html">
+<link rel="import" href="flow-card.html">
+
+<polymer-element name="flow-list" attributes="filter">
+    <template>
+        <style>
+            :host {
+                display: block;
+                width: 100%;
+            }
+
+            flow-card {
+                margin-bottom: 30px;
+            }
+        </style>
+
+        <flows-service res="{{flows}}"></flows-service>
+        <div layout vertical center>
+            <template repeat="{{flow in filteredFlows}}">
+                <flow-card id="{flow.id}"></flow-card>
+            </template>
+        </div>
+
+    </template>
+    <script>
+        Polymer('flow-list', {
+            flows        : null,
+            filter       : "",
+            filteredFlows: null,
+            observe      : {
+                flows : 'renderFlows',
+                filter: 'renderFlows'
+            },
+            renderFlows  : function () {
+                var self = this;
+                this.filteredFlows = self.flows
+                        .filter(function (el) {
+                            var flowName = el.name.toLowerCase();
+                            var filter = self.filter.toLowerCase();
+                            return flowName.indexOf(filter) !== -1;
+                        }).slice(0, 5);
+            },
+            ready        : function () {
+                this.flows = [];
+                this.filteredFlows = [];
+            }
+        });
+    </script>
+</polymer-element>

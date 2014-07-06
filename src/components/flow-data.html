@@ -1,0 +1,46 @@
+﻿<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../services/flow-service.html">
+
+<polymer-element name="flow-data" attributes="id">
+  <template>
+    <style>
+    .card-header {
+      margin-bottom: 10px;
+    }
+    polyfill-next-selector { content: '.card-header h2'; }
+    .card-header h2 {
+      margin: 5px;
+      font-size: 1.8rem;
+      font-weight: 300;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+   </style>
+    <flow-service id="{{id}}" res="{{flow}}"></flow-service>
+    <div class="card-header" layout horizontal center>
+      <h2 class="truncate">{{flow.name}}</h2>
+    </div>
+    <p>{{flow.description | truncate(150)}}</p>
+  </template>
+  <script>
+    Polymer('flow-data', {
+      flow : null,
+      next : function() {
+        console.log("arrow clicked");
+        this.fire("next", {});
+      },
+      truncate: function(str, length) {
+        if (!str) {
+          return "";
+        } else if (str.length < length) {
+          return str;
+        } else {
+          return str.substring(0, length) + "...";
+        }
+      }
+    });
+  </script>
+</polymer-element>

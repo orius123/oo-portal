@@ -3,17 +3,15 @@ var bower = require('gulp-bower');
 var vulcanize = require('gulp-vulcanize');
 var connect = require('gulp-connect');
 
+// Combine all resources into a single html file
 gulp.task('vulcanize', function () {
     return gulp.src('src/index.html')
         .pipe(vulcanize({dest: 'dist', inline: true}))
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('bower', function () {
-    return bower()
-        .pipe(gulp.dest('lib/'));
-});
-
+// LiveReload support
+// ==================
 gulp.task('connect', function () {
     connect.server({
         livereload: true
@@ -35,5 +33,8 @@ gulp.task('watch', function () {
     gulp.watch(['./mock-server/*.json'], ['json']);
 });
 
+// Public Tasks
+// ============
+gulp.task('bower', function () { return bower().pipe(gulp.dest('lib/')); });
 gulp.task('server', ['connect', 'watch']);
 gulp.task('default', ['vulcanize']);
