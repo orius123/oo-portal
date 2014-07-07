@@ -1,0 +1,45 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+
+<polymer-element name="execution-service" attributes="executionId res">
+    <template>
+        <style>
+            :host {
+                display: none;
+            }
+        </style>
+
+        <!--url="../../mock-server/execution.json?{{executionId}}"-->
+        <core-ajax id="ajax"
+                   url="./../../rest/v1/executions/{{executionId}}/summary"
+                   on-core-response="{{dataLoaded}}"
+                   handleAs="json">
+        </core-ajax>
+    </template>
+    <script>
+        (function () {
+            Polymer('execution-service', {
+                res       : null,
+                timer     : null,
+                start     : function () {
+                    var self = this;
+                    if (this.timer) {
+                        throw "timer already started";
+                    }
+                    this.timer = setInterval(function () {
+                        self.$.ajax.go();
+                    }, 1000);
+                },
+                stop      : function () {
+                    if (this.timer) {
+                        clearInterval(this.timer);
+                    }
+                },
+                dataLoaded: function () {
+                    // Make a copy of the loaded data
+                    this.res = this.$.ajax.response.slice(0)[0];
+                }
+            });
+        })();
+    </script>
+</polymer-element>

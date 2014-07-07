@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
 
-<polymer-element name="flows-service" attributes="res">
+<polymer-element name="trigger-service" attributes="flowId inputs res">
     <template>
         <style>
             :host {
@@ -10,22 +10,26 @@
         </style>
 
         <core-ajax id="ajax"
-                   auto
-                   url="./../../rest/v1/flows/library"
+                   method="POST"
+                   contentType='application/json'
+                   url="./../../rest/v1/executions"
+                   body='{ "uuid" : "{{flowId}}", "inputs" : {{inputs}} }'
                    on-core-response="{{dataLoaded}}"
                    handleAs="json">
         </core-ajax>
     </template>
     <script>
-        Polymer('flows-service', {
+        Polymer('trigger-service', {
+            flowId    : null,
             created   : function () {
-                this.res = [];
+                this.res = null;
+            },
+            trigger   : function () {
+                this.$.ajax.go();
             },
             dataLoaded: function () {
                 // Make a copy of the loaded data
-                this.res = this.$.ajax.response.slice(0).filter(function (el) {
-                    return el.runnable;
-                });
+                this.res = this.$.ajax.response.executionId;
             }
         });
     </script>

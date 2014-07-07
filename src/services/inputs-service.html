@@ -1,22 +1,25 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
 
-<polymer-element name="inputs-service" attributes="id res">
+<polymer-element name="inputs-service" attributes="flowId res">
     <template>
         <style>
             :host {
                 display: none;
             }
         </style>
+
+        <!--url="../../mock-server/inputs.json?{{flowId}}"-->
         <core-ajax id="ajax"
                    auto
-                   url="../../mock-server/inputs.json"
+                   url="../../rest/v1/flows/{{flowId}}/inputs"
                    on-core-response="{{dataLoaded}}"
                    handleAs="json">
         </core-ajax>
     </template>
     <script>
         Polymer('inputs-service', {
+            flowId    : null,
             created   : function () {
                 this.res = [];
             },

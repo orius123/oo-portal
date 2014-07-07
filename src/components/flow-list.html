@@ -14,11 +14,10 @@
                 margin-bottom: 30px;
             }
         </style>
-
         <flows-service res="{{flows}}"></flows-service>
         <div layout vertical center>
             <template repeat="{{flow in filteredFlows}}">
-                <flow-card id="{flow.id}"></flow-card>
+                <flow-card flowId="{{flow.id}}"></flow-card>
             </template>
         </div>
 

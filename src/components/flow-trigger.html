@@ -4,18 +4,18 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../services/inputs-service.html">
 
-<polymer-element name="flow-trigger" attributes="id valid">
+<polymer-element name="flow-trigger" attributes="flowId valid inputs">
     <template>
         <style>
             paper-input {
                 width: 100%;
             }
         </style>
-        <inputs-service id="{{id}}" res="{{inputs}}"></inputs-service>
+        <inputs-service flowId="{{flowId}}" res="{{flowInputs}}"></inputs-service>
         <form>
-            <template repeat="{{input in inputs}}">
+            <template repeat="{{input in flowInputs}}">
                 <paper-input
-                        on-input="{{calcFormValidity}}"
+                        on-input="{{inputChanged}}"
                         inputValue="{{input.value}}"
                         label="{{input.name}}"
                         floatingLabel="true"></paper-input>
@@ -24,7 +24,6 @@
     </template>
     <script>
         (function () {
-
             function isFormValid(inputs) {
                 return inputs
                         .map(function (el) {
@@ -38,22 +37,32 @@
                         }, true);
             }
 
+            function extractInputs(inputs) {
+                return inputs
+                        .map(function (el) {
+                            return {key: el.name, value: el.value};
+                        }).filter(function (el) {
+                          return el.value;
+                        }).reduce(function (acc, el) {
+                            acc[el.key] = el.value;
+                            return acc;
+                        }, {});
+            }
+
             Polymer('flow-trigger', {
-                inputs          : null,
+                flowInputs      : null,
                 valid           : false,
-                inputsChanged   : function () {
-                    this.valid = isFormValid(this.inputs);
-                    console.log("form " + this.valid);
+                flowInputsChanged   : function () {
+                    this.valid = isFormValid(this.flowInputs);
+                    this.inputs = extractInputs(this.flowInputs);
                 },
-                calcFormValidity: function () {
-                    this.valid = isFormValid(this.inputs);
-                    console.log("form " + this.valid);
-                },
-                triggerFlow     : function () {
-                    console.log("triggering flow");
+                inputChanged: function () {
+                    this.valid = isFormValid(this.flowInputs);
+                    this.inputs = extractInputs(this.flowInputs);
                 },
                 ready           : function () {
-                    this.inputs = [];
+                    this.inputs = {};
+                    this.flowInputs = [];
                 }
             });
         })();

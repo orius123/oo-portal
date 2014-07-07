@@ -1,0 +1,111 @@
+﻿<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../services/execution-service.html">
+
+<polymer-element name="execution-status" attributes="executionId">
+    <template>
+        <style>
+            #status {
+                text-align: center;
+            }
+
+            .pulse {
+                animation-name: pulse;
+                -webkit-animation-name: pulse;
+                animation-duration: 1.5s;
+                -webkit-animation-duration: 1.5s;
+                animation-iteration-count: infinite;
+                -webkit-animation-iteration-count: infinite;
+            }
+
+            .resolved.image {
+                content:url('../../resources/resolved.png');
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(0.9);
+                    opacity: 0.7;
+                }
+
+                50% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+
+                100% {
+                    transform: scale(0.9);
+                    opacity: 0.7;
+                }
+            }
+
+            @-webkit-keyframes pulse {
+                0% {
+                    -webkit-transform: scale(0.95);
+                    opacity: 0.7;
+                }
+
+                50% {
+                    -webkit-transform: scale(1);
+                    opacity: 1;
+                }
+
+                100% {
+                    -webkit-transform: scale(0.95);
+                    opacity: 0.7;
+                }
+            }
+        </style>
+        <execution-service id="service" executionId="{{executionId}}" res="{{execution}}"></execution-service>
+        <div class="pulse" id="status">
+            <p>{{execution.executionName}}</p>
+            <template if="{{execution.status == 'COMPLETED'}}">
+                <template if="{{execution.resultStatusType == 'RESOLVED'}}">
+                    <img src="../../resources/resolved.png">
+                </template>
+                <template if="{{execution.resultStatusType == 'ERROR'}}">
+                    <img src="../../resources/error.png">
+                </template>
+                <template if="{{execution.resultStatusType == 'DIAGNOSED'}}">
+                    <img src="../../resources/diagnosed.png">
+                </template>
+                <template if="{{execution.resultStatusType == 'NO_ACTION'}}">
+                    <img src="../../resources/no_action.png">
+                </template>
+            </template>
+            <template if="{{execution.status == 'PAUSED' || execution.status == 'PENDING_PAUSE'}}">
+                <img src="../../resources/paused.png">
+            </template>
+            <template if="{{execution.status == 'CANCELED' || execution.status == 'PENDING_CANCEL'}}">
+                <img src="../../resources/cancelled.png">
+            </template>
+            <template if="{{execution.status == 'SYSTEM_FAILURE'}}">
+                <img src="../../resources/exception.png">
+            </template>
+            <template if="{{execution.status == 'RUNNING'}}">
+                <img src="../../resources/running.png">
+            </template>
+            <p>{{execution.status}}</p>
+        </div>
+    </template>
+    <script>
+        (function () {
+            Polymer('execution-status', {
+                execution         : null,
+                executionChanged  : function () {
+                    if (this.execution.status === 'COMPLETED'
+                            || this.execution.status === 'SYSTEM_FAILURE') {
+                        this.$.service.stop();
+                    }
+                },
+                executionIdChanged: function () {
+                    if (this.executionId) {
+                        this.$.service.start();
+                    }
+                },
+                ready             : function () {
+                    this.execution = {};
+                }
+            });
+        })();
+    </script>
+</polymer-element>

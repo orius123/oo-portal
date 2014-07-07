@@ -3,8 +3,10 @@
 <link rel="import" href="../../bower_components/core-animation/core-animation.html">
 <link rel="import" href="flow-data.html">
 <link rel="import" href="flow-trigger.html">
+<link rel="import" href="execution-status.html">
+<link rel="import" href="../services/trigger-service.html">
 
-<polymer-element name="flow-card" attributes="id">
+<polymer-element name="flow-card" attributes="flowId">
     <template>
         <style>
             /* general styles */
@@ -23,6 +25,10 @@
             }
 
             #trigger.core-selected {
+                position: inherit;
+            }
+
+            #monitor.core-selected {
                 position: inherit;
             }
 
@@ -81,17 +87,23 @@
                     opacity: 1;
                 }
             }
-
         </style>
         <core-animated-pages id="pages" transitions="hero-transition cross-fade">
             <section id="flow">
                 <div cross-fade hero hero-id="hero">
-                    <flow-data on-next={{next}} id="{{id}}"></flow-card>
+                    <flow-data on-next="{{next}}" flowId="{{flowId}}"></flow-data>
                 </div>
             </section>
             <section id="trigger">
                 <div cross-fade hero hero-id="hero">
-                    <flow-trigger cross-fade id="{{id}}" valid="{{formValidity}}"></flow-trigger>
+                    <flow-trigger id="flowTriggering" cross-fade flowId="{{flowId}}"
+                                  valid="{{formValidity}}" inputs="{{inputs}}"></flow-trigger>
+                    <trigger-service id="triggerService" flowId="{{flowId}}" inputs="{{inputs | json}}" res="{{executionId}}"></trigger-service>
+                </div>
+            </section>
+            <section id="monitor">
+                <div cross-fade hero hero-id="hero">
+                    <execution-status cross-fade executionId="{{executionId}}"></execution-status>
                 </div>
             </section>
         </core-animated-pages>
@@ -101,25 +113,39 @@
     </template>
     <script>
         (function () {
-            var PAGE_AMOUNT = 2;
+            var PAGE_AMOUNT = 3;
             var FLOW_PAGE = 0;
             var TRIGGER_PAGE = 1;
+            var MONITOR_PAGE = 2;
+
+            function triggerFlow(service) {
+                service.trigger();
+            }
 
             Polymer('flow-card', {
-                observe          : {
-                    "$.pages.selected": "calcBtnVisibility",
-                    "formValidity"    : "calcBtnVisibility"
+                observe      : {
+                    "$.pages.selected": "btnVisibility",
+                    "formValidity"    : "btnVisibility"
                 },
-                showArrow        : true,
-                formValidity     : true,
-                calcBtnVisibility: function () {
+                json : function(obj) {
+                    return JSON.stringify(obj);
+                },
+                showArrow    : true,
+                formValidity : true,
+                executionId  : null,
+                btnVisibility: function () {
                     if (this.$.pages.selected == TRIGGER_PAGE) {
                         this.showArrow = this.formValidity;
                     } else if (this.$.pages.selected === (PAGE_AMOUNT - 1)) {
                         this.showArrow = false;
                     }
                 },
-                next             : function () {
+                next         : function () {
+                    if (this.$.pages.selected === TRIGGER_PAGE) {
+                        triggerFlow(this.$.triggerService);
+                    }
+
+                    // move to next page
                     this.$.pages.selected += 1;
                 }
             });
